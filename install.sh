@@ -1,3 +1,3 @@
 #!/bin/bash
 
-puppet apply --modulepath modules site.pp
+puppet apply --modulepath modules manifests/site.pp
