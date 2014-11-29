@@ -69,8 +69,9 @@ class player(
 	exec { "mpdcron":
 		# path set in site.pp
 		command => "mpdcron",
-		# TODO Won't start after unclean shutdown
-		creates => "${mpdcron_dir}/mpdcron.pid",
+		# We could do it "properly" with creates, but that won't attempt to start folling a dirty shutdown.
+		# creates => "${mpdcron_dir}/mpdcron.pid",
+		unless => "pgrep mpdcron",
 		cwd => "${mpdcron_home}",
 		environment => [ "HOME=${mpdcron_home}" ], # not set by user attribute
 		user => "mpdcron", # seems to be very limited; no change of HOME, cwd, etc
