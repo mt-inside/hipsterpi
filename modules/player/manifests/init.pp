@@ -34,6 +34,8 @@ class player(
 	user { "mpdcron":
 		ensure => present,
 		gid => "audio",
+		# This is nasty. It's needed becuase the automount module runs udisks-glue as this user as well
+		groups => [ "plugdev" ],
 	        home => "${mpdcron_home}",
 	        managehome => true;
 	} ->
