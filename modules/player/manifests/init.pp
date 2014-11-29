@@ -2,6 +2,13 @@ class player(
 	$mpdcron_home = "/home/mpdcron"
 )
 {
+	File
+	{
+		owner => "mpdcron",
+		group => "audio",
+	}
+
+
 	package { [ "mpd" ]:
 		ensure => installed;
 	} ->
@@ -20,12 +27,6 @@ class player(
 
 
 	$mpdcron_dir = "${mpdcron_home}/.mpdcron"
-
-	File
-	{
-		owner => "mpdcron",
-		group => "audio",
-	}
 
 	package { [ "mpdcron", "mpc" ]:
 		ensure => installed;
@@ -76,5 +77,20 @@ class player(
 		environment => [ "HOME=${mpdcron_home}" ], # not set by user attribute
 		user => "mpdcron", # seems to be very limited; no change of HOME, cwd, etc
 		group => "audio";
+	}
+
+
+	file { "${mpdcron_home}/buttond.py":
+		ensure => file,
+		source => "puppet:///modules/player/buttond/buttond.py",
+		mode => "0755";
+	} ->
+
+	exec { "buttond":
+		command => "${mpdcron_home}/buttond.py",
+		#unless => "pgrep -f 'python.*buttond'",
+		unless => "pgrep python",
+		#provider => "shell",
+		user => "root";
 	}
 }
