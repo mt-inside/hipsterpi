@@ -86,11 +86,12 @@ class player(
 		mode => "0755";
 	} ->
 
+	# TODO
+	# - This is not yet idempotent because I cannot make unless( pgrep -f ) work properly, under either provider type
+	# - I also can't make output redirection work using &>> and the shell provider
 	exec { "buttond":
+		# Backgrounds itself
 		command => "${mpdcron_home}/buttond.py",
-		#unless => "pgrep -f 'python.*buttond'",
-		unless => "pgrep python",
-		#provider => "shell",
 		user => "root";
 	}
 }
