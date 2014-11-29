@@ -1,0 +1,4 @@
+#!/bin/bash
+
+exec >> /tmp/mpdcron_hooks.log
+echo "PLAYER EVENT - doing nothing"

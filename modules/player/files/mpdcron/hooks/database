@@ -1,0 +1,7 @@
+#!/bin/bash
+
+exec >> /tmp/mpdcron_hooks.log
+echo "DATABASE EVENT - clearing and re-adding all to playlist"
+mpc --wait clear
+mpc --wait ls | mpc --wait add
+$(dirname $0)/play.sh
