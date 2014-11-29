@@ -1,0 +1,2 @@
+include automount
+include player
