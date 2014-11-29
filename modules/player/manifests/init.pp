@@ -2,19 +2,17 @@ class player(
 	$mpdcron_home = "/home/mpdcron"
 )
 {
-	package { [ "mpd", "mpdcron", "mpc" ]:
+	package { [ "mpd" ]:
 		ensure => installed;
-	}
-
+	} ->
 
 	file { "/etc/mpd.conf":
 		ensure => file,
 		source => "puppet:///modules/player/mpd/mpd.conf",
 		owner => "mpd",
 		group => "audio",
-		mode => "0640",
-		notify => Service["mpd"];
-	}
+		mode => "0640";
+	} ~>
 
 	service { "mpd":
 		ensure => running;
@@ -28,6 +26,10 @@ class player(
 		owner => "mpdcron",
 		group => "audio",
 	}
+
+	package { [ "mpdcron", "mpc" ]:
+		ensure => installed;
+	} ->
 
 	user { "mpdcron":
 		ensure => present,
@@ -65,6 +67,7 @@ class player(
 	exec { "mpdcron":
 		# path set in site.pp
 		command => "mpdcron",
+		# TODO Won't start after unclean shutdown
 		creates => "${mpdcron_dir}/mpdcron.pid",
 		cwd => "${mpdcron_home}",
 		environment => [ "HOME=${mpdcron_home}" ], # not set by user attribute
