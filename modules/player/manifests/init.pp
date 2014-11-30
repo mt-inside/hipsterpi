@@ -41,16 +41,12 @@ class player(
 	        managehome => true;
 	} ->
 
-	file { "${mpdcron_dir}":
-		ensure => directory;
-	} ->
-
-	file { "${mpdcron_dir}/mpdcron.conf":
-		ensure => file,
-	        source => "puppet:///modules/player/mpdcron/mpdcron.conf";
-	} ->
-
 	file {
+		"${mpdcron_dir}":
+			ensure => directory;
+		"${mpdcron_dir}/mpdcron.conf":
+			ensure => file,
+			source => "puppet:///modules/player/mpdcron/mpdcron.conf";
 		"${mpdcron_dir}/hooks":
 			ensure => directory;
 		"${mpdcron_dir}/hooks/player":

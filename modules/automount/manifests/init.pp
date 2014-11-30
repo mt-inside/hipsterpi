@@ -13,12 +13,10 @@ class automount(
 		ensure => installed;
 	} ->
 
-	file { "${mpdcron_home}/.udisks-glue.conf":
-		ensure => file,
-		source => "puppet:///modules/automount/udisks-glue/udisks-glue.conf";
-	} ->
-
 	file {
+		"${mpdcron_home}/.udisks-glue.conf":
+			ensure => file,
+			source => "puppet:///modules/automount/udisks-glue/udisks-glue.conf";
 		"${mpdcron_home}/post-mount.sh":
 			ensure => file,
 			mode => "0755",
