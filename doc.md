@@ -13,6 +13,7 @@ How it works
 Debugging
 ======
 To debug, you probably want: vim, git, vim-puppet
+You may find the following useful to debug puppet: puppet apply --modulepath modules --debug --verbose --detailed-exitcodes manifests/site.pp
 
 Notes
 =====
